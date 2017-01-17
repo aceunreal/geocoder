@@ -37,4 +37,7 @@ module Geocoder
   class NetworkError < Error
   end
 
+  class NoResultsError < Error
+  end
+
 end
