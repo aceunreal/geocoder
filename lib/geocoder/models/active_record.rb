@@ -18,6 +18,7 @@ module Geocoder
           :units         => options[:units],
           :method        => options[:method],
           :lookup        => options[:lookup],
+          :region        => options[:region],
           :language      => options[:language]
         )
       end
@@ -35,6 +36,7 @@ module Geocoder
           :units           => options[:units],
           :method          => options[:method],
           :lookup          => options[:lookup],
+          :region        => options[:region],
           :language        => options[:language]
         )
       end
