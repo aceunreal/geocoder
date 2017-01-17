@@ -1,8 +1,4 @@
-<<<<<<< 510afa855089b8fe448f30e1ab209315e0bae653
-require 'geocoder/results/google'
-=======
 require "geocoder/results/google"
->>>>>>> Google Places Search Lookup (#1143)
 
 module Geocoder
   module Result
