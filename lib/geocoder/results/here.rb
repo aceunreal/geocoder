@@ -31,7 +31,7 @@ module Geocoder::Result
     end
 
     def city
-      address_data['City']
+      address_data['District'] || address_data['City']
     end
 
     def state_code
@@ -51,6 +51,14 @@ module Geocoder::Result
 
     def country_code
       address_data['Country']
+    end
+
+    def street_address
+      address_data['Street']
+    end
+
+    def street_number
+      address_data['HouseNumber']
     end
 
     def viewport
