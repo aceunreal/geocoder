@@ -49,13 +49,17 @@ module Geocoder::Lookup
       case doc['status']; when "OK" # OK status implies >0 results
         return doc['results']
       when "OVER_QUERY_LIMIT"
-        raise_error(Geocoder::OverQueryLimitError) || Geocoder.log(:warn, "Google Geocoding API error: over query limit.")
+        raise_error(Geocoder::OverQueryLimitError) ||
+          Geocoder.log(:warn, "#{name} API error: over query limit.")
       when "REQUEST_DENIED"
-        raise_error(Geocoder::RequestDenied) || Geocoder.log(:warn, "Google Geocoding API error: request denied.")
+        raise_error(Geocoder::RequestDenied) ||
+          Geocoder.log(:warn, "#{name} API error: request denied.")
       when "INVALID_REQUEST"
-        raise_error(Geocoder::InvalidRequest) || Geocoder.log(:warn, "Google Geocoding API error: invalid request.")
+        raise_error(Geocoder::InvalidRequest) ||
+          Geocoder.log(:warn, "#{name} API error: invalid request.")
       when "ZERO_RESULTS"
-        raise_error(Geocoder::NoResultsError) || Geocoder.log(:warn, "Google Geocoding API error: no results returned.")
+        raise_error(Geocoder::NoResultsError) ||
+          Geocoder.log(:warn, "#{name} API error: no results returned.")
       end
       return []
     end
