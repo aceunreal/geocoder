@@ -90,7 +90,7 @@ module Geocoder
           return
         end
 
-        query_options = [:region, :lookup, :ip_lookup, :language].inject({}) do |hash, key|
+        query_options = [:region, :components, :lookup, :ip_lookup, :language].inject({}) do |hash, key|
           if options.has_key?(key)
             val = options[key]
             hash[key] = val.respond_to?(:call) ? val.call(self) : val
