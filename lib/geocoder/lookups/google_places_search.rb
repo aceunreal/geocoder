@@ -39,6 +39,9 @@ module Geocoder
         end
 
         []
+
+      def base_query_url(query)
+        "#{protocol}://maps.googleapis.com/maps/api/place/textsearch/json?"
       end
 
       def query_url_google_params(query)

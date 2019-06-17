@@ -24,7 +24,7 @@ class LookupTest < GeocoderTestCase
 
   def test_query_url_contains_values_in_params_hash
     Geocoder::Lookup.all_services_except_test.each do |l|
-      next if [:freegeoip, :maxmind_local, :telize, :pointpin, :geoip2, :maxmind_geoip2, :mapbox, :ipinfo_io, :ipapi_com].include? l # does not use query string
+      next if [:freegeoip, :maxmind_local, :telize, :pointpin, :geoip2, :maxmind_geoip2, :mapbox, :ipdata_co, :ipinfo_io, :ipapi_com, :ipstack, :postcodes_io].include? l # does not use query string
       set_api_key!(l)
       url = Geocoder::Lookup.get(l).query_url(Geocoder::Query.new(
         "test", :params => {:one_in_the_hand => "two in the bush"}
@@ -56,8 +56,10 @@ class LookupTest < GeocoderTestCase
   end
 
   {
+    :bing => :language,
     :google => :language,
     :google_premier => :language,
+    :here => :language,
     :nominatim => :"accept-language",
     :yandex => :plng
   }.each do |l,p|
@@ -115,6 +117,12 @@ class LookupTest < GeocoderTestCase
     Geocoder.configure(:api_key => "MY_KEY")
     g = Geocoder::Lookup::Baidu.new
     assert_match "ak=MY_KEY", g.query_url(Geocoder::Query.new("Madison Square Garden, New York, NY  10001, United States"))
+  end
+
+  def test_db_ip_com_api_key
+    Geocoder.configure(:api_key => "MY_KEY")
+    g = Geocoder::Lookup::DbIpCom.new
+    assert_match "\/MY_KEY\/", g.query_url(Geocoder::Query.new("232.65.123.94"))
   end
 
   def test_pointpin_api_key

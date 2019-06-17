@@ -21,6 +21,7 @@ module Geocoder
           :region        => options[:region],
           :components    => options[:components],
           :language      => options[:language]
+          :params        => options[:params]
         )
       end
 
@@ -40,6 +41,7 @@ module Geocoder
           :region          => options[:region],
           :components      => options[:components],
           :language        => options[:language]
+          :params          => options[:params]
         )
       end
 
@@ -51,4 +53,3 @@ module Geocoder
     end
   end
 end
-

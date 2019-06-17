@@ -12,11 +12,11 @@ module Geocoder::Lookup
       ["app_id", "app_code"]
     end
 
-    def query_url(query)
-      "#{protocol}://#{if query.reverse_geocode? then 'reverse.' end}geocoder.api.here.com/6.2/#{if query.reverse_geocode? then 'reverse' end}geocode.json?" + url_query_string(query)
-    end
-
     private # ---------------------------------------------------------------
+
+    def base_query_url(query)
+      "#{protocol}://#{if query.reverse_geocode? then 'reverse.' end}geocoder.api.here.com/6.2/#{if query.reverse_geocode? then 'reverse' end}geocode.json?"
+    end
 
     def results(query)
       return [] unless doc = fetch_data(query)
@@ -28,33 +28,48 @@ module Geocoder::Lookup
       []
     end
 
-    def query_url_params(query)
+    def query_url_here_options(query, reverse_geocode)
       options = {
-        :gen=>4,
-        :app_id=>api_key,
-        :app_code=>api_code
+        gen: 9,
+        app_id: api_key,
+        app_code: api_code,
+        language: (query.language || configuration.language)
       }
+      if reverse_geocode
+        options[:mode] = :retrieveAddresses
+        return options
+      end
 
+      unless (country = query.options[:country]).nil?
+        options[:country] = country
+      end
+
+      unless (mapview = query.options[:bounds]).nil?
+        options[:mapview] = mapview.map{ |point| "%f,%f" % point }.join(';')
+      end
+      options
+    end
+
+    def query_url_params(query)
       if query.reverse_geocode?
-        super.merge(options).merge(
-          :prox=>query.sanitized_text,
-          :mode=>:retrieveAddresses
+        super.merge(query_url_here_options(query, true)).merge(
+          prox: query.sanitized_text
         )
       else
-        super.merge(options).merge(
-          :searchtext=>query.sanitized_text
+        super.merge(query_url_here_options(query, false)).merge(
+          searchtext: query.sanitized_text
         )
       end
     end
 
     def api_key
-      if a=configuration.api_key
+      if (a = configuration.api_key)
         return a.first if a.is_a?(Array)
       end
     end
 
     def api_code
-      if a=configuration.api_key
+      if (a = configuration.api_key)
         return a.last if a.is_a?(Array)
       end
     end

@@ -37,16 +37,16 @@ module Geocoder
         :nominatim,
         :mapbox,
         :mapquest,
-        :mapzen,
         :opencagedata,
-        :ovi,
         :pelias,
+        :pickpoint,
         :here,
         :baidu,
+        :tencent,
         :geocodio,
         :smarty_streets,
-        :okf,
         :postcode_anywhere_uk,
+        :postcodes_io,
         :geoportail_lu,
         :ban_data_gouv_fr,
         :test,
@@ -69,7 +69,11 @@ module Geocoder
         :pointpin,
         :maxmind_geoip2,
         :ipinfo_io,
-        :ipapi_com
+        :ipapi_com,
+        :ipdata_co,
+        :db_ip_com,
+        :ipstack,
+        :ip2location
       ]
     end
 

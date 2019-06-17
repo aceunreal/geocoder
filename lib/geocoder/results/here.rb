@@ -17,17 +17,24 @@ module Geocoder::Result
       fail unless d = @data['Location']['DisplayPosition']
       [d['Latitude'].to_f, d['Longitude'].to_f]
     end
-    
+
     def route
       address_data['Street']
     end
-    
+
     def street_number
       address_data['HouseNumber']
-    end  
+    end
+
+    def state_code
+      address_data['State']
+    end
 
     def state
-      address_data['County']
+      fail unless d = address_data['AdditionalData']
+      if v = d.find{|ad| ad['key']=='StateName'}
+        return v['value']
+      end
     end
 
     def province

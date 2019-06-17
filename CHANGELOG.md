@@ -3,6 +3,55 @@ Changelog
 
 Major changes to Geocoder for each release. Please see the Git log for complete list of changes.
 
+1.5.1 (2019 Jan 23)
+-------------------
+* Add support for :tencent lookup (thanks github.com/Anders-E).
+* Add support for :smarty_streets international API (thanks github.com/ankane).
+* Remove :mapzen lookup.
+
+1.5.0 (2018 Jul 31)
+-------------------
+* Drop support for Ruby <2.0.
+* Change default street address lookup from :google to :nominatim.
+* Cache keys no longer include API credentials. This means many entries in existing cache implementations will be invalidated.
+* Test lookup fixtures should now return `coordinates` and NOT `latitude`/`longitude` attributes (see #1258). This may break some people's tests.
+* Add support for :ip2location lookup (thanks github.com/ip2location).
+* Remove :ovi and :okf lookups.
+
+1.4.9 (2018 May 27)
+-------------------
+* Fix regression in :geoip2 lookup.
+* Add support for Postcodes.io lookup (thanks github.com/sledge909).
+
+1.4.8 (2018 May 21)
+-------------------
+* Change default IP address lookup from :freegeoip to :ipinfo_io.
+* Add support for :ipstack lookup (thanks github.com/Heath101).
+* Fix incompatibility with redis-rb gem v4.0.
+
+1.4.7 (2018 Mar 13)
+-------------------
+* Allow HTTP protocol for Nominatim.
+
+1.4.6 (2018 Feb 28)
+-------------------
+* Add support for :ipdata_co lookup (thanks github.com/roschaefer).
+* Update for Rails 5.2 compatibility (thanks github.com/stevenharman).
+
+1.4.5 (2017 Nov 29)
+-------------------
+* Add support for :pickpoint lookup (thanks github.com/cylon-v).
+* Add support for :db_ip_com lookup (thanks github.com/cv).
+* Change FreeGeoIP host to freegeoip.net.
+* Allow search radius to be a symbol representing a column in DB (thanks github.com/leonelgalan).
+* Add support for new parameters and improved error handling for several lookups.
+* Fix bug in SQL when searching for objects across 180th meridian.
+
+1.4.4 (2017 May 17)
+-------------------
+* Use HTTPS by default for :freegeoip (thanks github.com/mehanoid).
+* Add support for :amap lookup (thanks github.com/pzgz).
+
 1.4.3 (2017 Feb  7)
 -------------------
 * Add :google_places_search lookup (thanks github.com/waruboy).
