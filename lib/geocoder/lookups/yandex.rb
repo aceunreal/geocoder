@@ -12,15 +12,15 @@ module Geocoder::Lookup
       "http://maps.yandex.ru/?ll=#{coordinates.reverse.join(',')}"
     end
 
-    def query_url(query)
-      "#{protocol}://geocode-maps.yandex.ru/1.x/?" + url_query_string(query)
-    end
-    
     def supported_protocols
       [:https]
     end
 
     private # ---------------------------------------------------------------
+
+    def base_query_url(query)
+      "#{protocol}://geocode-maps.yandex.ru/1.x/?"
+    end
 
     def results(query)
       return [] unless doc = fetch_data(query)
@@ -47,12 +47,16 @@ module Geocoder::Lookup
       else
         q = query.sanitized_text
       end
-      {
+      params = {
         :geocode => q,
         :format => "json",
         :plng => "#{query.language || configuration.language}", # supports ru, uk, be
-        :key => configuration.api_key
-      }.merge(super)
+        :apikey => configuration.api_key
+      }
+      unless (bounds = query.options[:bounds]).nil?
+        params[:bbox] = bounds.map{ |point| "%f,%f" % point }.join('~')
+      end
+      params.merge(super)
     end
   end
 end

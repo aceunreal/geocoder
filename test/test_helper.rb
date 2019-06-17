@@ -75,6 +75,10 @@ else
         def primary_key
           :id
         end
+
+        def maximum(_field)
+          1.0
+        end
       end
     end
   end
@@ -157,6 +161,14 @@ module Geocoder
       end
     end
 
+    require 'geocoder/lookups/db_ip_com'
+    class DbIpCom
+      private
+      def fixture_prefix
+        "db_ip_com"
+      end
+    end
+
     require 'geocoder/lookups/google_premier'
     class GooglePremier
       private
@@ -202,6 +214,22 @@ module Geocoder
       private
       def default_fixture_filename
         "freegeoip_74_200_247_59"
+      end
+    end
+
+    require 'geocoder/lookups/ip2location'
+    class Ip2location
+      private
+      def default_fixture_filename
+        "ip2location_8_8_8_8"
+      end
+    end
+
+    require 'geocoder/lookups/ipstack'
+    class Ipstack
+      private
+      def default_fixture_filename
+        "ipstack_134_201_250_155"
       end
     end
 
@@ -290,19 +318,19 @@ module Geocoder
       end
     end
 
+    require 'geocoder/lookups/tencent'
+    class Tencent
+      private
+      def default_fixture_filename
+        "tencent_shanghai_pearl_tower"
+      end
+    end
+
     require 'geocoder/lookups/geocodio'
     class Geocodio
       private
       def default_fixture_filename
         "geocodio_1101_pennsylvania_ave"
-      end
-    end
-
-    require 'geocoder/lookups/okf'
-    class Okf
-      private
-      def default_fixture_filename
-        "okf_kirstinmaki"
       end
     end
 
@@ -315,6 +343,18 @@ module Geocoder
 
       def default_fixture_filename
         "#{fixture_prefix}_romsey"
+      end
+    end
+
+    require 'geocoder/lookups/postcodes_io'
+    class PostcodesIo
+      private
+      def fixture_prefix
+        'postcodes_io'
+      end
+
+      def default_fixture_filename
+        "#{fixture_prefix}_malvern_hills"
       end
     end
 
@@ -338,13 +378,6 @@ module Geocoder
       end
     end
 
-    require 'geocoder/lookups/mapzen'
-    class Mapzen
-      def fixture_prefix
-        'pelias'
-      end
-    end
-
     require 'geocoder/lookups/ipinfo_io'
     class IpinfoIo
       private
@@ -358,6 +391,14 @@ module Geocoder
       private
       def default_fixture_filename
         "ipapi_com_74_200_247_59"
+      end
+    end
+
+    require 'geocoder/lookups/ipdata_co'
+    class IpdataCo
+      private
+      def default_fixture_filename
+        "ipdata_co_74_200_247_59"
       end
     end
 
@@ -378,6 +419,14 @@ module Geocoder
       private
       def default_fixture_filename
         "amap_shanghai_pearl_tower"
+      end
+    end
+
+    require 'geocoder/lookups/pickpoint'
+    class Pickpoint
+      private
+      def fixture_prefix
+        "pickpoint"
       end
     end
 
