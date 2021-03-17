@@ -1,29 +1,27 @@
 Geocoder
 ========
 
-**A complete geocoding solution for Ruby.**
+**Complete geocoding solution for Ruby.**
 
 [![Gem Version](https://badge.fury.io/rb/geocoder.svg)](http://badge.fury.io/rb/geocoder)
 [![Code Climate](https://codeclimate.com/github/alexreisner/geocoder/badges/gpa.svg)](https://codeclimate.com/github/alexreisner/geocoder)
 [![Build Status](https://travis-ci.org/alexreisner/geocoder.svg?branch=master)](https://travis-ci.org/alexreisner/geocoder)
-[![GitHub Issues](https://img.shields.io/github/issues/alexreisner/geocoder.svg)](https://github.com/alexreisner/geocoder/issues)
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
 Key features:
 
-* Forward and reverse geocoding, and IP address geocoding.
+* Forward and reverse geocoding.
+* IP address geocoding.
 * Connects to more than 40 APIs worldwide.
 * Performance-enhancing features like caching.
-* Advanced configuration allows different parameters and APIs to be used in different conditions.
 * Integrates with ActiveRecord and Mongoid.
 * Basic geospatial queries: search within radius (or rectangle, or ring).
 
 Compatibility:
 
-* Supports multiple Ruby versions: Ruby 2.x, and JRuby.
-* Supports multiple databases: MySQL, PostgreSQL, SQLite, and MongoDB (1.7.0 and higher).
-* Supports Rails 3, 4, and 5. If you need to use it with Rails 2 please see the `rails2` branch (no longer maintained, limited feature set).
-* Works very well outside of Rails, you just need to install either the `json` (for MRI) or `json_pure` (for JRuby) gem.
+* Ruby versions: 2.x, and JRuby.
+* Databases: MySQL, PostgreSQL, SQLite, and MongoDB.
+* Rails: 4, 5, and 6.
+* Works outside of Rails with the `json` (for MRI) or `json_pure` (for JRuby) gem.
 
 
 Table of Contents
@@ -53,8 +51,8 @@ The Rest:
 * [Technical Discussions](#technical-discussions)
 * [Troubleshooting](#troubleshooting)
 * [Known Issues](#known-issues)
-* [Reporting Issues](#reporting-issues)
-* [Contributing](#contributing)
+* [Reporting Issues](https://github.com/alexreisner/geocoder/blob/master/CONTRIBUTING.md#reporting-bugs)
+* [Contributing](https://github.com/alexreisner/geocoder/blob/master/CONTRIBUTING.md#making-changes)
 
 See Also:
 
@@ -215,7 +213,7 @@ Some common options are:
       # set default units to kilometers:
       units: :km,
 
-      # caching (see [below](#caching) for details):
+      # caching (see Caching section below for details):
       cache: Redis.new,
       cache_prefix: "..."
 
@@ -534,10 +532,14 @@ With the above stub defined, any query for "New York, NY" will return the result
       ]
     )
 
+You may also delete a single stub, or reset all stubs _including the default stub_:
+
+    Geocoder::Lookup::Test.delete_stub('New York, NY')
+    Geocoder::Lookup::Test.reset
+
 Notes:
 
 - Keys must be strings (not symbols) when calling `add_stub` or `set_default_stub`. For example `'country' =>` not `:country =>`.
-- To clear stubs (e.g. prior to another spec), use `Geocoder::Lookup::Test.reset`. This will clear all stubs _including the default stub_.
 - The stubbed result objects returned by the Test lookup do not support all the methods real result objects do. If you need to test interaction with real results it may be better to use an external stubbing tool and something like WebMock or VCR to prevent network calls.
 
 
@@ -678,29 +680,4 @@ If anyone has a more elegant solution to this problem I am very interested in se
 The `near` method will not look across the 180th meridian to find objects close to a given point. In practice this is rarely an issue outside of New Zealand and certain surrounding islands. This problem does not exist with the zero-meridian. The problem is due to a shortcoming of the Haversine formula which Geocoder uses to calculate distances.
 
 
-Reporting Issues
-----------------
-
-When reporting an issue, please list the version of Geocoder you are using and any relevant information about your application (Rails version, database type and version, etc). Please describe as specifically as you can what behavior you are seeing (eg: an error message? a nil return value?).
-
-Please DO NOT use GitHub issues to ask questions about how to use Geocoder. Sites like [StackOverflow](http://www.stackoverflow.com/) are a better forum for such discussions.
-
-
-Contributing
-------------
-
-Contributions are welcome via Github pull requests. If you are new to the project and looking for a way to get involved, try picking up an issue with a "beginner-task" label. Hints about what needs to be done are usually provided.
-
-For all contributions, please respect the following guidelines:
-
-* Each pull request should implement ONE feature or bugfix. If you want to add or fix more than one thing, submit more than one pull request.
-* Do not commit changes to files that are irrelevant to your feature or bugfix (eg: `.gitignore`).
-* Do not add dependencies on other gems.
-* Do not add unnecessary `require` statements which could cause LoadErrors on certain systems.
-* Remember: Geocoder needs to run outside of Rails. Don't assume things like ActiveSupport are available.
-* Be willing to accept criticism and work on improving your code; Geocoder is used by thousands of developers and care must be taken not to introduce bugs.
-* Be aware that the pull request review process is not immediate, and is generally proportional to the size of the pull request.
-* If your pull request is merged, please do not ask for an immediate release of the gem. There are many factors contributing to when releases occur (remember that they affect thousands of apps with Geocoder in their Gemfiles). If necessary, please install from the Github source until the next official release.
-
-
-Copyright (c) 2009-18 Alex Reisner, released under the MIT license.
+Copyright :copyright: 2009-2021 Alex Reisner, released under the MIT license.

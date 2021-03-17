@@ -14,6 +14,13 @@ class BanDataGouvFrTest < GeocoderTestCase
     assert_equal 'https://api-adresse.data.gouv.fr/search/?q=13+rue+yves+toudic%2C+75010+Paris', res
   end
 
+  def test_query_for_geocode_with_geographic_priority
+    query = Geocoder::Query.new('13 rue yves toudic, 75010 Paris', lat: 48.789, lon: 2.789)
+    lookup = Geocoder::Lookup.get(:ban_data_gouv_fr)
+    res = lookup.query_url(query)
+    assert_equal 'https://api-adresse.data.gouv.fr/search/?lat=48.789&lon=2.789&q=13+rue+yves+toudic%2C+75010+Paris', res
+  end
+
   def test_query_for_reverse_geocode
     query = Geocoder::Query.new([48.770639, 2.364375])
     lookup = Geocoder::Lookup.get(:ban_data_gouv_fr)
@@ -40,6 +47,7 @@ class BanDataGouvFrTest < GeocoderTestCase
     assert_equal '75', result.department_code
     assert_equal 'Paris', result.department_name
     assert_equal 'Île-de-France', result.region_name
+    assert_equal '11', result.region_code
     assert_equal 'France', result.country
     assert_equal 'FR', result.country_code
     assert_equal(48.870131, result.coordinates[0])
@@ -60,6 +68,7 @@ class BanDataGouvFrTest < GeocoderTestCase
     assert_equal '75', result.department_code
     assert_equal 'Paris', result.department_name
     assert_equal 'Île-de-France', result.region_name
+    assert_equal '11', result.region_code
     assert_equal(48.8589, result.coordinates[0])
     assert_equal(2.3469, result.coordinates[1])
   end
@@ -75,7 +84,8 @@ class BanDataGouvFrTest < GeocoderTestCase
     assert_equal(255100, result.population)
     assert_equal '34', result.department_code
     assert_equal 'Hérault', result.department_name
-    assert_equal 'Languedoc-Roussillon', result.region_name
+    assert_equal 'Occitanie', result.region_name
+    assert_equal '76', result.region_code
     assert_equal(43.611024, result.coordinates[0])
     assert_equal(3.875521, result.coordinates[1])
   end
@@ -98,6 +108,7 @@ class BanDataGouvFrTest < GeocoderTestCase
     assert_equal '94', result.department_code
     assert_equal 'Val-de-Marne', result.department_name
     assert_equal 'Île-de-France', result.region_name
+    assert_equal '11', result.region_code
     assert_equal 'France', result.country
     assert_equal 'FR', result.country_code
     assert_equal(48.770639, result.coordinates[0])

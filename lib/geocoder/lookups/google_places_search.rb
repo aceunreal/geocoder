@@ -1,4 +1,4 @@
-require "geocoder/lookups/google"
+irequire "geocoder/lookups/google"
 require "geocoder/results/google_places_search"
 
 module Geocoder
@@ -16,39 +16,43 @@ module Geocoder
         [:https]
       end
 
-      def query_url(query)
-        "#{protocol}://maps.googleapis.com/maps/api/place/textsearch/json?#{url_query_string(query)}"
-      end
-
       private
 
-      def results(query)
-        return [] unless doc = fetch_data(query)
-        case doc["status"]
-        when "OK"
-          return doc["results"]
-        when "OVER_QUERY_LIMIT"
-          raise_error(Geocoder::OverQueryLimitError) ||
-            Geocoder.log(:warn, "#{name} API error: over query limit.")
-        when "REQUEST_DENIED"
-          raise_error(Geocoder::RequestDenied) ||
-            Geocoder.log(:warn, "#{name} API error: request denied.")
-        when "INVALID_REQUEST"
-          raise_error(Geocoder::InvalidRequest) ||
-            Geocoder.log(:warn, "#{name} API error: invalid request.")
-        end
-
-        []
+      def result_root_attr
+        'candidates'
+      end
 
       def base_query_url(query)
-        "#{protocol}://maps.googleapis.com/maps/api/place/textsearch/json?"
+        "#{protocol}://maps.googleapis.com/maps/api/place/findplacefromtext/json?"
       end
 
       def query_url_google_params(query)
         {
-          query: query.text,
+          input: query.text,
+          inputtype: 'textquery',
+          fields: fields(query),
           language: query.language || configuration.language
         }
+      end
+
+      def fields(query)
+        query_fields = query.options[:fields]
+        return format_fields(query_fields) if query_fields
+
+        default_fields
+      end
+
+      def default_fields
+        legacy = %w[id reference]
+        basic = %w[business_status formatted_address geometry icon name 
+          photos place_id plus_code types]
+        contact = %w[opening_hours]
+        atmosphere = %W[price_level rating user_ratings_total]
+        format_fields(legacy, basic, contact, atmosphere)
+      end
+
+      def format_fields(*fields)
+        fields.flatten.join(',')
       end
     end
   end

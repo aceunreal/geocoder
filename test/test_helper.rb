@@ -23,7 +23,18 @@ if configs.keys.include? ENV['DB']
   ActiveRecord::Base.establish_connection(db_name.to_sym)
   ActiveRecord::Base.default_timezone = :utc
 
-  ActiveRecord::Migrator.migrate('test/db/migrate', nil)
+  if defined? ActiveRecord::MigrationContext
+    if ActiveRecord.version.release < Gem::Version.new('6.0.0')
+      # ActiveRecord >=5.2, takes one argument
+      ActiveRecord::MigrationContext.new('test/db/migrate').migrate
+    else
+      # ActiveRecord >=6.0, takes two arguments
+      ActiveRecord::MigrationContext.new('test/db/migrate', nil).migrate
+    end
+  else
+    ActiveRecord::Migrator.migrate('test/db/migrate', nil)
+  end
+
 else
   class MysqlConnection
     def adapter_name
@@ -209,6 +220,14 @@ module Geocoder
       end
     end
 
+    require 'geocoder/lookups/abstract_api'
+    class AbstractApi
+      private
+      def default_fixture_filename
+        "abstract_api"
+      end
+    end
+
     require 'geocoder/lookups/freegeoip'
     class Freegeoip
       private
@@ -222,6 +241,14 @@ module Geocoder
       private
       def default_fixture_filename
         "ip2location_8_8_8_8"
+      end
+    end
+
+    require 'geocoder/lookups/ipgeolocation'
+    class Ipgeolocation
+      private
+      def default_fixture_filename
+        "ipgeolocation_103_217_177_217"
       end
     end
 
@@ -302,11 +329,20 @@ module Geocoder
       end
     end
 
+
     require 'geocoder/lookups/baidu'
     class Baidu
       private
       def default_fixture_filename
         "baidu_shanghai_pearl_tower"
+      end
+    end
+
+    require 'geocoder/lookups/nationaal_georegister_nl'
+    class NationaalGeoregisterNl
+      private
+      def default_fixture_filename
+        "nationaal_georegister_nl"
       end
     end
 
@@ -358,6 +394,14 @@ module Geocoder
       end
     end
 
+    require 'geocoder/lookups/uk_ordnance_survey_names'
+    class Geocoder::Lookup::UkOrdnanceSurveyNames
+      private
+      def default_fixture_filename
+        "#{fixture_prefix}_london"
+      end
+    end
+
     require 'geocoder/lookups/geoportail_lu'
     class GeoportailLu
       private
@@ -383,6 +427,14 @@ module Geocoder
       private
       def default_fixture_filename
         "ipinfo_io_8_8_8_8"
+      end
+    end
+
+    require 'geocoder/lookups/ipregistry'
+    class Ipregistry
+      private
+      def default_fixture_filename
+        "ipregistry_8_8_8_8"
       end
     end
 

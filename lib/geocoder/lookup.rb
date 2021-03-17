@@ -32,11 +32,12 @@ module Geocoder
         :google_places_search,
         :bing,
         :geocoder_ca,
-        :geocoder_us,
         :yandex,
+        :nationaal_georegister_nl,
         :nominatim,
         :mapbox,
         :mapquest,
+        :uk_ordnance_survey_names,
         :opencagedata,
         :pelias,
         :pickpoint,
@@ -51,7 +52,8 @@ module Geocoder
         :ban_data_gouv_fr,
         :test,
         :latlon,
-        :amap
+        :amap,
+        :osmnames
       ]
     end
 
@@ -61,6 +63,7 @@ module Geocoder
     def ip_services
       @ip_services ||= [
         :baidu_ip,
+        :abstract_api,
         :freegeoip,
         :geoip2,
         :maxmind,
@@ -69,11 +72,13 @@ module Geocoder
         :pointpin,
         :maxmind_geoip2,
         :ipinfo_io,
+        :ipregistry,
         :ipapi_com,
         :ipdata_co,
         :db_ip_com,
         :ipstack,
-        :ip2location
+        :ip2location,
+        :ipgeolocation
       ]
     end
 

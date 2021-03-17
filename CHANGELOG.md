@@ -3,6 +3,47 @@ Changelog
 
 Major changes to Geocoder for each release. Please see the Git log for complete list of changes.
 
+1.6.6 (2020 Mar  4)
+-------------------
+* Rescue from exception on cache read/write error. Issue warning instead.
+
+1.6.5 (2020 Feb 10)
+-------------------
+* Fix backward coordinates bug in NationaalregisterNl lookup (thanks github.com/Marthyn).
+* Allow removal of single stubs in test mode (thanks github.com/jmmastey).
+* Improve results for :ban_data_gouv_fr lookup (thanks github.com/Intrepidd).
+
+1.6.4 (2020 Oct  6)
+-------------------
+* Various updates in response to geocoding API changes.
+* Refactor of Google Places Search lookup (thanks github.com/maximilientyc).
+
+1.6.3 (2020 Apr 30)
+-------------------
+* Update URL for :telize lookup (thanks github.com/alexwalling).
+* Fix bug parsing IPv6 with port (thanks github.com/gdomingu).
+
+1.6.2 (2020 Mar 16)
+-------------------
+* Add support for :nationaal_georegister_nl lookup (thanks github.com/opensourceame).
+* Add support for :uk_ordnance_survey_names lookup (thanks github.com/pezholio).
+* Refactor and fix bugs in Yandex lookup (thanks github.com/iarie and stereodenis).
+
+1.6.1 (2020 Jan 23)
+-------------------
+* Sanitize lat/lon values passed to within_bounding_box to prevent SQL injection.
+
+1.6.0 (2020 Jan  6)
+-------------------
+* Drop support for Rails 3.x.
+* Add support for :osmnames lookup (thanks github.com/zacviandier).
+* Add support for :ipgeolocation IP lookup (thanks github.com/ahsannawaz111).
+
+1.5.2 (2019 Oct  3)
+-------------------
+* Add support for :ipregistry lookup (thanks github.com/ipregistry).
+* Various fixes for Yandex lookup.
+
 1.5.1 (2019 Jan 23)
 -------------------
 * Add support for :tencent lookup (thanks github.com/Anders-E).
